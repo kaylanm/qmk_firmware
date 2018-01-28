@@ -134,13 +134,13 @@ void reset_keyboard(void) {
   clear_keyboard();
 #if defined(MIDI_ENABLE) && defined(MIDI_BASIC)
   process_midi_all_notes_off();
-#endif  
+#endif
 #if defined(AUDIO_ENABLE)
   music_all_notes_off();
   uint16_t timer_start = timer_read();
   PLAY_SONG(goodbye_song);
   shutdown_user();
-  while(timer_elapsed(timer_start) < 250) 
+  while(timer_elapsed(timer_start) < 250)
     wait_ms(1);
   stop_all_notes();
 #else
@@ -905,13 +905,13 @@ void backlight_set(uint8_t level)
       TCCR1A &= ~(_BV(COM1x1));
       OCR1x = 0x0;
     #else
-      // #if BACKLIGHT_ON_STATE == 0
-      //   // PORTx |= n
-      //   _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
-      // #else
-      //   // PORTx &= ~n
-      //   _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
-      // #endif
+      #if BACKLIGHT_ON_STATE == 0
+        // PORTx |= n
+        _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
+      #else
+        // PORTx &= ~n
+        _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
+      #endif
     #endif
   }
   #ifndef NO_BACKLIGHT_CLOCK
@@ -927,6 +927,16 @@ void backlight_set(uint8_t level)
       // Set the brightness
       OCR1x = 0xFFFF >> ((BACKLIGHT_LEVELS - level) * ((BACKLIGHT_LEVELS + 1) / 2));
     }
+  #else
+    else if ( level == BACKLIGHT_LEVELS ) {
+    #if BACKLIGHT_ON_STATE == 0
+      // PORTx &= ~n
+      _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
+    #else
+      // PORTx |= n
+      _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
+    #endif
+    }
   #endif
 
   #ifdef BACKLIGHT_BREATHING
@@ -937,26 +947,26 @@ void backlight_set(uint8_t level)
 uint8_t backlight_tick = 0;
 
 void backlight_task(void) {
-  #ifdef NO_BACKLIGHT_CLOCK
-  if ((0xFFFF >> ((BACKLIGHT_LEVELS - backlight_config.level) * ((BACKLIGHT_LEVELS + 1) / 2))) & (1 << backlight_tick)) {
-    #if BACKLIGHT_ON_STATE == 0
-      // PORTx &= ~n
-      _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
-    #else
-      // PORTx |= n
-      _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
-    #endif
-  } else {
-    #if BACKLIGHT_ON_STATE == 0
-      // PORTx |= n
-      _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
-    #else
-      // PORTx &= ~n
-      _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
-    #endif
-  }
-  backlight_tick = (backlight_tick + 1) % 16;
-  #endif
+  // #ifdef NO_BACKLIGHT_CLOCK
+  // if ((0xFFFF >> ((BACKLIGHT_LEVELS - backlight_config.level) * ((BACKLIGHT_LEVELS + 1) / 2))) & (1 << backlight_tick)) {
+  //   #if BACKLIGHT_ON_STATE == 0
+  //     // PORTx &= ~n
+  //     _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
+  //   #else
+  //     // PORTx |= n
+  //     _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
+  //   #endif
+  // } else {
+  //   #if BACKLIGHT_ON_STATE == 0
+  //     // PORTx |= n
+  //     _SFR_IO8((backlight_pin >> 4) + 2) |= _BV(backlight_pin & 0xF);
+  //   #else
+  //     // PORTx &= ~n
+  //     _SFR_IO8((backlight_pin >> 4) + 2) &= ~_BV(backlight_pin & 0xF);
+  //   #endif
+  // }
+  // backlight_tick = (backlight_tick + 1) % 16;
+  // #endif
 }
 
 #ifdef BACKLIGHT_BREATHING
