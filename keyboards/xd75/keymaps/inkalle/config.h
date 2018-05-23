@@ -20,5 +20,7 @@
 #include "../../config.h"
 
 // place overrides here
+#undef BACKLIGHT_LEVELS
+#define BACKLIGHT_LEVELS 1
 
 #endif
