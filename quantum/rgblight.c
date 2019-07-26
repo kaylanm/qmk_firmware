@@ -924,7 +924,8 @@ void rgblight_effect_rainbow_mood(animation_status_t *anim) {
 
 #ifdef RGBLIGHT_EFFECT_RAINBOW_SWIRL
 #ifndef RGBLIGHT_RAINBOW_SWIRL_RANGE
-  #define RGBLIGHT_RAINBOW_SWIRL_RANGE 255
+  #define RGBLIGHT_RAINBOW_SWIRL_RANGE 50
+  #define RGBLIGHT_RAINBOW_SWIRL_OFFSET 170
 #endif
 
 __attribute__ ((weak))
@@ -945,6 +946,8 @@ void rgblight_effect_rainbow_swirl(animation_status_t *anim) {
   } else {
     anim->current_hue--;
   }
+
+  anim->current_hue = ((anim->current_hue - RGBLIGHT_RAINBOW_SWIRL_OFFSET) % RGBLIGHT_RAINBOW_SWIRL_RANGE) + RGBLIGHT_RAINBOW_SWIRL_OFFSET;
 }
 #endif
 
