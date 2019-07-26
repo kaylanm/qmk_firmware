@@ -1069,13 +1069,15 @@ void rgblight_effect_knight(animation_status_t *anim) {
 
 #ifdef RGBLIGHT_EFFECT_CHRISTMAS
 void rgblight_effect_christmas(animation_status_t *anim) {
-  uint8_t hue;
   uint8_t i;
 
   anim->current_offset = (anim->current_offset + 1) % 2;
   for (i = 0; i < effect_num_leds; i++) {
-    hue = 0 + ((i/RGBLIGHT_EFFECT_CHRISTMAS_STEP + anim->current_offset) % 2) * 85;
-    sethsv(hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[i + effect_start_pos]);
+    if ((i/RGBLIGHT_EFFECT_CHRISTMAS_STEP + anim->current_offset) % 2) {
+        setrgb(RGB_CYAN, (LED_TYPE *)&led[i + effect_start_pos]);
+    } else {
+        setrgb(RGB_HOTPINK, (LED_TYPE *)&led[i + effect_start_pos]);
+    }
   }
   rgblight_set();
 }
