@@ -924,8 +924,8 @@ void rgblight_effect_rainbow_mood(animation_status_t *anim) {
 
 #ifdef RGBLIGHT_EFFECT_RAINBOW_SWIRL
 #ifndef RGBLIGHT_RAINBOW_SWIRL_RANGE
-  #define RGBLIGHT_RAINBOW_SWIRL_RANGE 50
-  #define RGBLIGHT_RAINBOW_SWIRL_OFFSET 170
+  #define RGBLIGHT_RAINBOW_SWIRL_RANGE 112
+  #define RGBLIGHT_RAINBOW_SWIRL_OFFSET 128
 #endif
 
 __attribute__ ((weak))
@@ -937,6 +937,7 @@ void rgblight_effect_rainbow_swirl(animation_status_t *anim) {
 
   for (i = 0; i < effect_num_leds; i++) {
     hue = (RGBLIGHT_RAINBOW_SWIRL_RANGE / effect_num_leds * i + anim->current_hue);
+    hue = (((hue - RGBLIGHT_RAINBOW_SWIRL_OFFSET) % RGBLIGHT_RAINBOW_SWIRL_RANGE) + RGBLIGHT_RAINBOW_SWIRL_RANGE) % RGBLIGHT_RAINBOW_SWIRL_RANGE + RGBLIGHT_RAINBOW_SWIRL_OFFSET;
     sethsv(hue, rgblight_config.sat, rgblight_config.val, (LED_TYPE *)&led[i + effect_start_pos]);
   }
   rgblight_set();
@@ -946,8 +947,6 @@ void rgblight_effect_rainbow_swirl(animation_status_t *anim) {
   } else {
     anim->current_hue--;
   }
-
-  anim->current_hue = ((anim->current_hue - RGBLIGHT_RAINBOW_SWIRL_OFFSET) % RGBLIGHT_RAINBOW_SWIRL_RANGE) + RGBLIGHT_RAINBOW_SWIRL_OFFSET;
 }
 #endif
 
