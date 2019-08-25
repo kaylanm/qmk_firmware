@@ -27,7 +27,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define TAPPING_TERM 200
 
-void encoder_right(void);
-void encoder_left(void);
-
 #endif

@@ -49,14 +49,14 @@ void dance_reset (qk_tap_dance_state_t *state, void *user_data) {
   }
 }
 
-void encoder_right() {
-  register_code(KC_VOLU);
-  unregister_code(KC_VOLU);
-}
-
-void encoder_left() {
-  register_code(KC_VOLD);
-  unregister_code(KC_VOLD);
+void encoder_update_user(uint8_t index, bool clockwise) {
+  if (index == 0) {
+    if (clockwise) {
+      tap_code(KC_VOLU);
+    } else {
+      tap_code(KC_VOLD);
+    }
+  }
 }
 
 //All tap dance functions would go here. Only showing this one.
