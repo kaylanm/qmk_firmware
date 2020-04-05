@@ -13,9 +13,6 @@ void matrix_init_kb(void)
     palSetPadMode(GPIOB, 6, PAL_MODE_OUTPUT_PUSHPULL); // Caps LED
     palSetPadMode(GPIOB, 5, PAL_MODE_OUTPUT_PUSHPULL); // Scroll LED
 
-    palSetPadMode(GPIOA, 8, PAL_MODE_OUTPUT_PUSHPULL); // USB Reset
-    palClearPad(GPIOA, 8);                             // Stop resetting USB
-
     m12og_blink_all_leds();
 
     matrix_init_user();

@@ -121,13 +121,14 @@
 
 /*
  * USB bus activation macro, required by the USB driver.
+ * USB disconnect hardware on PA8
  */
-#define usb_lld_connect_bus(usbp)	/* always connected */
+#define usb_lld_connect_bus(usbp)    palSetPadMode(GPIOA, 8, PAL_MODE_OUTPUT_PUSHPULL); palClearPad(GPIOA, 8);
 
 /*
  * USB bus de-activation macro, required by the USB driver.
  */
-#define usb_lld_disconnect_bus(usbp)	/* always connected */
+#define usb_lld_disconnect_bus(usbp) palSetPadMode(GPIOA, 8, PAL_MODE_OUTPUT_PUSHPULL); palSetPad(GPIOA, 8);
 
 #if !defined(_FROM_ASM_)
 #ifdef __cplusplus
