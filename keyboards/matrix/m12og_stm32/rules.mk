@@ -17,7 +17,8 @@ OPT_DEFS =
 
 EXTRAFLAGS=-O0 -g
 
-BOOTMAGIC_ENABLE = no
+BOOTMAGIC_ENABLE = lite
+RGBLIGHT_ENABLE = yes
 MOUSEKEY_ENABLE = no	# Mouse keys
 EXTRAKEY_ENABLE = yes	# Audio control and System control
 CONSOLE_ENABLE = no	# Console for debug

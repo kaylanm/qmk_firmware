@@ -6,13 +6,13 @@
 #include <stdbool.h>
 #include "hal.h"
 
-inline void m12og_board_led_1_on(void) { palSetPad(GPIOB, 7); }
-inline void m12og_board_led_2_on(void) { palSetPad(GPIOB, 5); }
-inline void m12og_board_led_1_off(void) { palClearPad(GPIOB, 7); }
-inline void m12og_board_led_2_off(void) { palClearPad(GPIOB, 5); }
+inline void m12og_board_caps_led_on(void) { palSetPad(GPIOB, 6); }
+inline void m12og_board_scroll_led_on(void) { palSetPad(GPIOB, 5); }
+inline void m12og_board_caps_led_off(void) { palClearPad(GPIOB, 6); }
+inline void m12og_board_scroll_led_off(void) { palClearPad(GPIOB, 5); }
 inline void m12og_led_all_off(void)
 {
-  palClearPad(GPIOB, 7);
+  palClearPad(GPIOB, 6);
   palClearPad(GPIOB, 5);
 }
 
