@@ -18,18 +18,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "config_common.h"
 
-#define VENDOR_ID 0xFEED
-#define PRODUCT_ID 0x1308
+#define VENDOR_ID 0x4D4C
+#define PRODUCT_ID 0x1212
 #define DEVICE_VER 0x101
 #define MANUFACTURER Matrix
-#define PRODUCT M12og STM
-#define DESCRIPTION Matrix OG STM32 Keyboard
+#define PRODUCT Matrix M12og STM
+#define DESCRIPTION Matrix M12OG STM32 Keyboard
 
 #define DIODE_DIRECTION COL2ROW
 #define MATRIX_ROWS 6
 #define MATRIX_COLS 16
 #define MATRIX_ROW_PINS { A0, A1, A2, A3, A4, A5 }
 #define MATRIX_COL_PINS { C0, C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15 }
+
+#define RGB_DI_PIN B8
+#define RGBLED_NUM 16
 
 /* key combination for command */
 #define IS_COMMAND() ( \
