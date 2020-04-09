@@ -48,6 +48,17 @@
 #    define WS2812_PWM_TARGET_PERIOD 80000  // TODO: work out why 10x less on f303/f4x1
 #endif
 
+// Default to GRB
+#ifndef WS2812_RED_ORDER
+#    define WS2812_RED_ORDER 1
+#endif
+#ifndef WS2812_GREEN_ORDER
+#    define WS2812_GREEN_ORDER 0
+#endif
+#ifndef WS2812_BLUE_ORDER
+#    define WS2812_BLUE_ORDER 2
+#endif
+
 /* --- PRIVATE CONSTANTS ---------------------------------------------------- */
 
 #define WS2812_PWM_FREQUENCY (STM32_SYSCLK / 2)                             /**< Clock frequency of PWM, must be valid with respect to system clock! */
@@ -117,31 +128,31 @@
  *
  * @return                          The bit index
  */
-#define WS2812_RED_BIT(led, bit) WS2812_BIT((led), 1, (bit))
+#define WS2812_RED_BIT(led, bit) WS2812_BIT((led), WS2812_RED_ORDER, (bit))
 
 /**
  * @brief   Determine the index in @ref ws2812_frame_buffer "the frame buffer" of a given green bit
  *
- * @note    The red byte is the first byte in the color packet
+ * @note    The green byte is the first byte in the color packet
  *
  * @param[in] led:                  The led index [0, @ref RGBLED_NUM)
  * @param[in] bit:                  The bit number [0, 7]
  *
  * @return                          The bit index
  */
-#define WS2812_GREEN_BIT(led, bit) WS2812_BIT((led), 0, (bit))
+#define WS2812_GREEN_BIT(led, bit) WS2812_BIT((led), WS2812_GREEN_ORDER, (bit))
 
 /**
  * @brief   Determine the index in @ref ws2812_frame_buffer "the frame buffer" of a given blue bit
  *
- * @note    The red byte is the last byte in the color packet
+ * @note    The blue byte is the last byte in the color packet
  *
  * @param[in] led:                  The led index [0, @ref RGBLED_NUM)
  * @param[in] bit:                  The bit index [0, 7]
  *
  * @return                          The bit index
  */
-#define WS2812_BLUE_BIT(led, bit) WS2812_BIT((led), 2, (bit))
+#define WS2812_BLUE_BIT(led, bit) WS2812_BIT((led), WS2812_BLUE_ORDER, (bit))
 
 /* --- PRIVATE VARIABLES ---------------------------------------------------- */
 
@@ -180,11 +191,11 @@ void ws2812_init(void) {
 
     // Configure DMA
     // dmaInit(); // Joe added this
-    dmaStreamAlloc(WS2812_DMA_STREAM - STM32_DMA_STREAM(0), 10, NULL, NULL);
-    dmaStreamSetPeripheral(WS2812_DMA_STREAM, &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1]));  // Ziel ist der An-Zeit im Cap-Comp-Register
-    dmaStreamSetMemory0(WS2812_DMA_STREAM, ws2812_frame_buffer);
-    dmaStreamSetTransactionSize(WS2812_DMA_STREAM, WS2812_BIT_N);
-    dmaStreamSetMode(WS2812_DMA_STREAM, STM32_DMA_CR_CHSEL(WS2812_DMA_CHANNEL) | STM32_DMA_CR_DIR_M2P | STM32_DMA_CR_PSIZE_WORD | STM32_DMA_CR_MSIZE_WORD | STM32_DMA_CR_MINC | STM32_DMA_CR_CIRC | STM32_DMA_CR_PL(3));
+    const stm32_dma_stream_t* dma = dmaStreamAlloc(WS2812_DMA_STREAM, 10, NULL, NULL);
+    dmaStreamSetPeripheral(dma, &(WS2812_PWM_DRIVER.tim->CCR[WS2812_PWM_CHANNEL - 1]));  // Ziel ist der An-Zeit im Cap-Comp-Register
+    dmaStreamSetMemory0(dma, ws2812_frame_buffer);
+    dmaStreamSetTransactionSize(dma, WS2812_BIT_N);
+    dmaStreamSetMode(dma, STM32_DMA_CR_CHSEL(WS2812_DMA_CHANNEL) | STM32_DMA_CR_DIR_M2P | STM32_DMA_CR_PSIZE_WORD | STM32_DMA_CR_MSIZE_WORD | STM32_DMA_CR_MINC | STM32_DMA_CR_CIRC | STM32_DMA_CR_PL(3));
     // M2P: Memory 2 Periph; PL: Priority Level
 
 #if (STM32_DMA_SUPPORTS_DMAMUX == TRUE)
@@ -193,7 +204,7 @@ void ws2812_init(void) {
 #endif
 
     // Start DMA
-    dmaStreamEnable(WS2812_DMA_STREAM);
+    dmaStreamEnable(dma);
 
     // Configure PWM
     // NOTE: It's required that preload be enabled on the timer channel CCR register. This is currently enabled in the

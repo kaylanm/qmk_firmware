@@ -46,5 +46,4 @@ void __early_init(void) {
  */
 void boardInit(void) {
 	AFIO->MAPR |= AFIO_MAPR_SWJ_CFG_JTAGDISABLE;
-
 }

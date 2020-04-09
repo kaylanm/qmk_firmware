@@ -13,12 +13,11 @@ MCU = cortex-m3
 
 ARMV = 7
 
-OPT_DEFS =
-
 EXTRAFLAGS=-O0 -g
 
 BOOTMAGIC_ENABLE = lite
 RGBLIGHT_ENABLE = yes
+WS2812_DRIVER = pwm
 MOUSEKEY_ENABLE = no	# Mouse keys
 EXTRAKEY_ENABLE = yes	# Audio control and System control
 CONSOLE_ENABLE = no	# Console for debug
@@ -31,4 +30,4 @@ UNICODE_ENABLE   = yes # Unicode
 
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
-OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
+OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE -DSTM32_DMA_REQUIRED
