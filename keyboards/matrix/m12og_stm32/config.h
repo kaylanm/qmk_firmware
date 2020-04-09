@@ -34,6 +34,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGB_DI_PIN B8
 #define RGBLED_NUM 16
 
+#define WS2812_PWM_DRIVER PWMD4  // default: PWMD2
+#define WS2812_PWM_CHANNEL 3  // default: 2
+// #define WS2812_PWM_PAL_MODE 0  // Pin "alternate function", see the respective datasheet for the appropriate values for your MCU. default: 2
+#define WS2812_DMA_STREAM STM32_DMA_STREAM_ID(1, 7)  // DMA Stream for TIMx_UP, see the respective reference manual for the appropriate values for your MCU.
+#define WS2812_DMA_CHANNEL 7  // DMA Channel for TIMx_UP, see the respective reference manual for the appropriate values for your MCU.
+#define WS2812_PWM_TARGET_PERIOD 800000 // Not 10x less on F103 -_-
+
+// TM1812 is RGB, not GRB color order
+#define WS2812_RED_ORDER 0
+#define WS2812_GREEN_ORDER 1
+#define WS2812_BLUE_ORDER 2
+
 /* key combination for command */
 #define IS_COMMAND() ( \
     keyboard_report->mods == (MOD_BIT(KC_LSFT) | MOD_BIT(KC_RSFT)) \
