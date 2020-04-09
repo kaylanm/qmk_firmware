@@ -33,6 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define RGB_DI_PIN B8
 #define RGBLED_NUM 16
+#define RGBLIGHT_ANIMATIONS
 
 #define WS2812_PWM_DRIVER PWMD4  // default: PWMD2
 #define WS2812_PWM_CHANNEL 3  // default: 2
