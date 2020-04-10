@@ -13,7 +13,7 @@ MCU = cortex-m3
 
 ARMV = 7
 
-EXTRAFLAGS=-O0 -g
+EXTRAFLAGS=-O1 -g
 
 BOOTMAGIC_ENABLE = lite
 RGBLIGHT_ENABLE = yes
