@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MATRIX_ROW_PINS { A0, A1, A2, A3, A4, A5 }
 #define MATRIX_COL_PINS { C0, C1, C2, C3, C4, C5, C6, C7, C8, C9, C10, C11, C12, C13, C14, C15 }
 
+#define DEBOUNCE    5
+
 #define RGB_DI_PIN B8
 #define RGBLED_NUM 16
 #define RGBLIGHT_ANIMATIONS

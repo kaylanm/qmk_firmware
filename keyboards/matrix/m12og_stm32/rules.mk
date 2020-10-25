@@ -28,6 +28,8 @@ CUSTOM_MATRIX = no # Custom matrix file
 NKRO_ENABLE      = yes # USB Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
 UNICODE_ENABLE   = yes # Unicode
 
+CUSTOM_MATRIX = yes
+SRC += matrix.c
 
 # Enter lower-power sleep mode when on the ChibiOS idle thread
-OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE -DSTM32_DMA_REQUIRED
+OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
